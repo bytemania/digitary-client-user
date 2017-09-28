@@ -17,6 +17,7 @@ public class Contact {
 
     @Id
     @Column(name = "CONTACT_ID")
+    @JsonIgnore
     private String id;
 
     @Constraints.Required(message = "user.validation.email.required")

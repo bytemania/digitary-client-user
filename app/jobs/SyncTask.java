@@ -1,6 +1,7 @@
 package jobs;
 
 import akka.actor.ActorSystem;
+import play.Logger;
 import play.mvc.Controller;
 import scala.concurrent.ExecutionContext;
 import scala.concurrent.duration.Duration;
@@ -32,6 +33,6 @@ public class SyncTask extends Controller {
 
     private void execute()
     {
-        System.out.println("Running block of code");
+        Logger.error("Running block of code");
     }
 }
