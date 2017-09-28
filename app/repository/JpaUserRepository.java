@@ -53,6 +53,8 @@ public class JpaUserRepository implements UserRepository {
         return jpaApi.withTransaction(function);
     }
 
+
+
     private Optional<User> get(EntityManager em, Integer id) {
         User user = em.find(User.class, id);
         if (user != null) {
