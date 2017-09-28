@@ -23,18 +23,14 @@ public class User {
     @JoinColumn(name="CONTACT_ID", unique=true, nullable=false, updatable=false)
     private Contact contact;
 
-    @JsonIgnore
-    private Timestamp date;
 
-    public User() {
-        this.date = new Timestamp(new Date().getTime());
+    public User(){;
     }
 
     public User(Integer id, String name, Contact contact) {
         this.id = id;
         this.name = name;
         this.contact = contact;
-        this.date = new Timestamp(new Date().getTime());
     }
 
     public Integer getId() {
@@ -59,14 +55,6 @@ public class User {
 
     public void setContact(Contact contact) {
         this.contact = contact;
-    }
-
-    public Timestamp getDate() {
-        return date;
-    }
-
-    public void setDate(Timestamp date) {
-        this.date = date;
     }
 
     @Override

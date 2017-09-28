@@ -10,14 +10,14 @@ import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "CONTACT_ID")
-    private int id;
+    private String id;
 
     @Constraints.Required(message = "user.validation.email.required")
     @Constraints.Email(message = "user.validation.email.invalid")
@@ -36,9 +36,11 @@ public class Contact {
     private List<String> phones;
 
     public Contact() {
+        id = UUID.randomUUID().toString();
     }
 
     public Contact(String email, String address1, String address2, String city, String postalCode, String country, List<String> phones) {
+        id = UUID.randomUUID().toString();
         this.email = email;
         this.address1 = address1;
         this.address2 = address2;
@@ -48,11 +50,11 @@ public class Contact {
         this.phones = phones;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

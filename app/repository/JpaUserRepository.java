@@ -25,6 +25,11 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public CompletionStage<Integer> sync(List<User> users) {
+        return supplyAsync(() -> wrap(em -> sync(em, users)), executionContext);
+    }
+
+    @Override
     public CompletionStage<Optional<User>> create(User user) {
         return supplyAsync(() -> wrap(em -> insert(em, user)), executionContext);
     }
@@ -53,7 +58,14 @@ public class JpaUserRepository implements UserRepository {
         return jpaApi.withTransaction(function);
     }
 
-
+    private Integer sync(EntityManager em, List<User> users) {
+        int count=0;
+        for (User user : users) {
+            em.merge(user);
+            count++;
+        }
+        return count;
+    }
 
     private Optional<User> get(EntityManager em, Integer id) {
         User user = em.find(User.class, id);
@@ -66,8 +78,7 @@ public class JpaUserRepository implements UserRepository {
 
     private Optional<User> insert(EntityManager em, User user) {
         Optional<User> userOptional = get(em, user.getId());
-        if(userOptional.isPresent())
-        {
+        if (userOptional.isPresent()) {
             return Optional.empty();
         } else {
             em.persist(user);
