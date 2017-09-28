@@ -1,0 +1,12 @@
+user.ok=User with id {0,number,#} has {1} sucessfully
+user.alreadyExists=User with id {0,number,#} already exists
+user.notFound=User with id {0,number,#} not found
+
+user.validation.id.required=id is required
+user.validation.name.required=name is required
+user.validation.email.required=email is required
+user.validation.email.invalid=email is invalid
+user.validation.address1.required=address1 is required
+user.validation.city.required=city is required
+user.validation.country.required=city is required
+user.validation.phone.size=validation must be between 0 and 3

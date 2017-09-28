@@ -10,13 +10,13 @@ import java.util.stream.Stream;
 @ImplementedBy(JpaUserRepository.class)
 public interface UserRepository {
 
-    CompletionStage<User> create(User user);
+    CompletionStage<Optional<User>> create(User user);
 
-    CompletionStage<Optional<User>> get(int id);
+    CompletionStage<Optional<User>> get(Integer id);
 
     CompletionStage<Optional<User>> update(User user);
 
-    CompletionStage<Optional<User>> delete(int id);
+    CompletionStage<Optional<User>> delete(Integer id);
 
     CompletionStage<Stream<User>> list();
 }

@@ -25,12 +25,12 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public CompletionStage<User> create(User user) {
+    public CompletionStage<Optional<User>> create(User user) {
         return supplyAsync(() -> wrap(em -> insert(em, user)), executionContext);
     }
 
     @Override
-    public CompletionStage<Optional<User>> get(int id) {
+    public CompletionStage<Optional<User>> get(Integer id) {
         return supplyAsync(() -> wrap(em -> get(em, id)), executionContext);
     }
 
@@ -40,7 +40,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public CompletionStage<Optional<User>> delete(int id) {
+    public CompletionStage<Optional<User>> delete(Integer id) {
         return supplyAsync(() -> wrap(em -> delete(em, id)), executionContext);
     }
 
@@ -53,7 +53,7 @@ public class JpaUserRepository implements UserRepository {
         return jpaApi.withTransaction(function);
     }
 
-    private Optional<User> get(EntityManager em, int id) {
+    private Optional<User> get(EntityManager em, Integer id) {
         User user = em.find(User.class, id);
         if (user != null) {
             return Optional.of(user);
@@ -62,9 +62,15 @@ public class JpaUserRepository implements UserRepository {
         }
     }
 
-    private User insert(EntityManager em, User user) {
-        em.persist(user);
-        return user;
+    private Optional<User> insert(EntityManager em, User user) {
+        Optional<User> userOptional = get(em, user.getId());
+        if(userOptional.isPresent())
+        {
+            return Optional.empty();
+        } else {
+            em.persist(user);
+            return Optional.of(user);
+        }
     }
 
     private Optional<User> update(EntityManager em, User user) {
@@ -77,12 +83,14 @@ public class JpaUserRepository implements UserRepository {
         }
     }
 
-    private Optional<User> delete(EntityManager em, int id) {
+    private Optional<User> delete(EntityManager em, Integer id) {
         Optional<User> user = get(em, id);
         if (user.isPresent()) {
-            em.remove(user);
+            em.remove(user.get());
+            return user;
+        } else {
+            return Optional.empty();
         }
-        return user;
     }
 
     private Stream<User> list(EntityManager em) {

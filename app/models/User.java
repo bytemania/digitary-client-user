@@ -1,18 +1,21 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    @Constraints.Required(message = "user.validation.id.required")
+    private Integer id;
 
-    @Constraints.Required
+    @Constraints.Required(message = "user.validation.name.required")
     private String name;
 
     @Valid
@@ -20,20 +23,25 @@ public class User {
     @JoinColumn(name="CONTACT_ID", unique=true, nullable=false, updatable=false)
     private Contact contact;
 
+    @JsonIgnore
+    private Timestamp date;
+
     public User() {
+        this.date = new Timestamp(new Date().getTime());
     }
 
-    public User(int id, String name, Contact contact) {
+    public User(Integer id, String name, Contact contact) {
         this.id = id;
         this.name = name;
         this.contact = contact;
+        this.date = new Timestamp(new Date().getTime());
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -53,6 +61,14 @@ public class User {
         this.contact = contact;
     }
 
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,11 +76,11 @@ public class User {
 
         User user = (User) o;
 
-        return id == user.id;
+        return id.equals(user.id);
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return id.hashCode();
     }
 }

@@ -19,26 +19,23 @@ public class Contact {
     @Column(name = "CONTACT_ID")
     private int id;
 
-    @Constraints.Required
+    @Constraints.Required(message = "user.validation.email.required")
+    @Constraints.Email(message = "user.validation.email.invalid")
     private String email;
-    @Constraints.Required
+    @Constraints.Required(message = "user.validation.address1.required")
     private String address1;
     private String address2;
-    @Constraints.Required
+    @Constraints.Required(message = "user.validation.city.required")
     private String city;
     private String postalCode;
-    @Constraints.Required
+    @Constraints.Required(message = "user.validation.country")
     private String country;
 
-    @Size(max = 3)
+    @Size(max = 3, message = "user.validation.phone.size")
     @ElementCollection(targetClass=String.class, fetch = FetchType.EAGER)
     private List<String> phones;
 
-    @JsonIgnore
-    private Timestamp date;
-
     public Contact() {
-        date = new Timestamp(new Date().getTime());
     }
 
     public Contact(String email, String address1, String address2, String city, String postalCode, String country, List<String> phones) {
