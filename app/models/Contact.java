@@ -1,6 +1,14 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
+import javax.validation.Constraint;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -10,17 +18,27 @@ public class Contact {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "CONTACT_ID")
     private int id;
+
+    @Constraints.Required
     private String email;
+    @Constraints.Required
     private String address1;
     private String address2;
+    @Constraints.Required
     private String city;
     private String postalCode;
+    @Constraints.Required
     private String country;
 
+    @Size(max = 3)
     @ElementCollection(targetClass=String.class, fetch = FetchType.EAGER)
     private List<String> phones;
 
+    @JsonIgnore
+    private Timestamp date;
+
     public Contact() {
+        date = new Timestamp(new Date().getTime());
     }
 
     public Contact(String email, String address1, String address2, String city, String postalCode, String country, List<String> phones) {

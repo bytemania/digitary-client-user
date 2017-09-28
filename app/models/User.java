@@ -1,6 +1,9 @@
 package models;
 
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
+import javax.validation.Valid;
 
 @Entity
 public class User {
@@ -8,8 +11,11 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
+
+    @Constraints.Required
     private String name;
 
+    @Valid
     @OneToOne(optional=false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="CONTACT_ID", unique=true, nullable=false, updatable=false)
     private Contact contact;
