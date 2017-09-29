@@ -1,12 +1,9 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 public class User {
