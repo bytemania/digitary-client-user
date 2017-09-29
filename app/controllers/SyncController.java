@@ -66,6 +66,8 @@ public class SyncController extends Controller {
             diffMinutes = ConfigFactory.load().getLong("sync.users.since.default");
         }
 
+        syncDetailRepository.setStamp();
+
         return diffMinutes;
     }
 
